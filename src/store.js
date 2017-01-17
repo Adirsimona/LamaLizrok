@@ -8,8 +8,8 @@ export default new Vuex.Store({
     state: {
         items: [],
         ctgs: ['מוצרי חשמל', 'ריהוט וכלי בית', 'ספרים ומדיה', 'בגדים ואופנה', 'תחביבים וספורט', 'לתינוק ולילד', 'שונות'],
-        currFilter: 'all'
-
+        currFilter: 'all',
+        isMapMode: true
     },
     mutations: {
         setItems(state, payload) {
@@ -17,6 +17,10 @@ export default new Vuex.Store({
         },
         updateFilter(state, payload) {
             state.currFilter = payload;
+            console.log('currFilter', state.currFilter);
+        },
+        switchDisplay(state) {
+            state.isMapMode = !state.isMapMode;
         }
         // filterItems(state, ctg) {
         //     if (ctg === 'all') state.itemsFilter = state.items;

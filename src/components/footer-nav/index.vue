@@ -10,9 +10,9 @@
            <router-link v-else to="/home"><a class="button is-dark"><i class="fa fa-undo" aria-hidden="true"></i></a></router-link>
         </div>
          <!-- map / list -->
-        <div class="footer-cell" @click="isMapMode = !isMapMode">
-           <router-link v-if="isMapMode" to="/list"><a class="button is-dark"><i class="fa fa-list" aria-hidden="true"></i></a></router-link>
-           <router-link v-else to="/home"><a class="button is-dark"><i class="fa fa-map" aria-hidden="true"></i></a></router-link>
+        <div class="footer-cell" @click="switchDisplay">
+            <a v-if="isMapMode" class="button is-dark"><i class="fa fa-list" aria-hidden="true"></i></a>
+            <a v-else  class="button is-dark"><i class="fa fa-map" aria-hidden="true"></i></a>
         </div>
     </div>
 </template>
@@ -21,22 +21,24 @@
 
             // <a v-if="isMapMode" @click="switchDisplay('item-list-map')" class="button is-dark"><i class="fa fa-list" aria-hidden="true"></i></a>
             // <a v-else @click="switchDisplay('item-list')" class="button is-dark"><i class="fa fa-map" aria-hidden="true"></i></a>
-
+        //     <router-link v-if="isMapMode" to="/list"><a class="button is-dark"><i class="fa fa-list" aria-hidden="true"></i></a></router-link>
+        //    <router-link v-else to="/home"><a class="button is-dark"><i class="fa fa-map" aria-hidden="true"></i></a></router-link>
     export default {
         name : 'footer-nav' ,
         data() { 
             return {
-             isAddMode : false ,
-             isMapMode : true , 
+             isAddMode : false
             }
         } ,
         methods : {
-            switchDisplay (str) {
-                this.$store.commit('switchDisplay' , str);
+            switchDisplay () {
+                this.$store.commit('switchDisplay');
             }
         } ,
         computed: {
-
+            isMapMode() {
+                return this.$store.state.isMapMode;
+            }
         }
     }
 </script>

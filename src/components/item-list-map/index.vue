@@ -1,8 +1,6 @@
 <template>
     <div class="item-list-map">
-        
-        <div id="map">
-        </div>
+        <div id="map"></div>
     </div>
 </template>
 
@@ -10,6 +8,11 @@
 
     export default {
         name : 'item-list-map' , 
+        props : {
+            items : {
+                type: Array
+            }
+        } ,
         data() { 
             return {
                 map: null,
@@ -58,7 +61,6 @@
                         }
             }
         } ,
-
         mounted () {
                 L.mapbox.accessToken = 'pk.eyJ1IjoiYWRpcnNpbW9uYSIsImEiOiJjaXNieDd5bjUwMDB6MnRxZmYwYmp0ZXlkIn0.EVRohsa3TB2JcabmAQPZ9A';
                 // create map
@@ -70,9 +72,6 @@
                 });
                 var styleLayer = L.mapbox.styleLayer('mapbox://styles/adirsimona/cisce3vxz00242xpewuqf5jz9').addTo(this.map);
 
-                // add layer
-                // var styleLayer = L.mapbox.styleLayer('mapbox://styles/adirsimona/cisce3vxz00242xpewuqf5jz9').addTo(this.map);
-
                     // get user position and add marker to map
                 navigator.geolocation.getCurrentPosition(pos => {
                     L.marker([ pos.coords.latitude , pos.coords.longitude ], {
@@ -83,19 +82,10 @@
                         })
                     }).addTo(this.map);   
                 });
-
             } ,
-            created () {
-                 this.$store.dispatch('getItems').then(items => this.renderItemsOnMap(items));
-            } ,
-            computed: {
-               filterItems() {
-                   return this.$store.getters.filterItems;
-                }
-            },
             watch: {
-               filterItems() {
-                   this.renderItemsOnMap(this.filterItems);
+               items() {
+                   this.renderItemsOnMap(this.items);
                } 
             }
          } 

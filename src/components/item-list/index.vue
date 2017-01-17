@@ -1,8 +1,7 @@
 <template>
     <div class="item-list">
-        <filter-header></filter-header>
         <transition-group name="flip-list">
-            <item-preview v-for="item in filterItems" :item="item" :key="item.name"></item-preview>
+            <item-preview v-for="item in items" :item="item" :key="item.name"></item-preview>
         </transition-group>
 
     </div>
@@ -10,21 +9,21 @@
 
 <script>
 import itemPreview from '../item-preview';
-import filterHeader from '../filter-header';
+
     export default {
         name : 'item-list' , 
+        props : {
+            items : {
+                type: Array
+            }
+        } ,
         data() { 
             return {
              
             }
         } ,
         components : {
-            itemPreview , filterHeader
-        } ,
-        computed: {
-            filterItems() {
-                return this.$store.getters.filterItems;
-            } 
+            itemPreview
         } ,
         created () {
             this.$store.dispatch('getItems');

@@ -2,7 +2,7 @@
     <div class="filter-header">
         <p class="control">
             <span class="select">
-                <select v-on:change="updateFilter" v-model="filterCtg">
+                <select :value="currFilter" v-on:change="updateFilter($event.target.value)" >
                     <option value="all">בחר קטגוריה</option>
                     <option v-for="ctg in ctgs" :value="ctg">{{ctg}}</option>
                 </select>
@@ -16,18 +16,24 @@
         name : 'filter-header' , 
         data() { 
             return {
-            filterCtg : ''
+
             }
         } ,
         methods: {
-            updateFilter() {
-                this.$store.commit('updateFilter' , this.filterCtg);
+            updateFilter(filterCtg) {
+                this.$store.commit('updateFilter' , filterCtg);
             }
         } ,
         computed : {
             ctgs() {
                 return this.$store.state.ctgs;
+            } ,
+            currFilter() {
+                return this.$store.state.currFilter;
             }
+        },
+        created () {
+            this.updateFilter(this.currFilter);
         } 
     }
 </script>
