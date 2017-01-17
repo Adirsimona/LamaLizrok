@@ -1,0 +1,18 @@
+.input-group label {
+    color: #1976d2;
+    position: relative;
+    top: 15px;
+    -webkit-transition: .3s cubic-bezier(0, 0, .2, 1);
+    transition: .3s cubic-bezier(0, 0, .2, 1);
+}
+
+.leaflet-popup-content {
+    text-align: center;
+    h1 {
+        color: black;
+        font-size: 1.5em;
+    }
+    h2 {
+        margin: 0 0 5px 0;
+    }
+}

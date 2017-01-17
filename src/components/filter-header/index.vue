@@ -1,6 +1,13 @@
 <template>
-    <div id="filter-header">
-        
+    <div class="filter-header">
+        <p class="control">
+            <span class="select">
+                <select v-on:change="updateFilter" v-model="filterCtg">
+                    <option value="all">בחר קטגוריה</option>
+                    <option v-for="ctg in ctgs" :value="ctg">{{ctg}}</option>
+                </select>
+            </span>
+        </p>
     </div>
 </template>
 
@@ -9,20 +16,33 @@
         name : 'filter-header' , 
         data() { 
             return {
-             
+            filterCtg : ''
             }
-        }
+        } ,
+        methods: {
+            updateFilter() {
+                this.$store.commit('updateFilter' , this.filterCtg);
+            }
+        } ,
+        computed : {
+            ctgs() {
+                return this.$store.state.ctgs;
+            }
+        } 
     }
 </script>
 
 <style scoped lang='scss'>
-    #filter-header {
+    .filter-header {
         position: fixed;
         width: 100%;
         background: #3A3636;
         height: 11%;
         top: 0;
         opacity: 0.87;
-            z-index: 1;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 </style>

@@ -1,11 +1,16 @@
 <template>
-    <div id="item-list">
-        <item-prev v-for="item in items" :item="item"></item-prev>
+    <div class="item-list">
+        <filter-header></filter-header>
+        <transition-group name="flip-list">
+            <item-preview v-for="item in filterItems" :item="item" :key="item.name"></item-preview>
+        </transition-group>
+
     </div>
 </template>
 
 <script>
-import itemPrev from '../item-prev';
+import itemPreview from '../item-preview';
+import filterHeader from '../filter-header';
     export default {
         name : 'item-list' , 
         data() { 
@@ -14,12 +19,12 @@ import itemPrev from '../item-prev';
             }
         } ,
         components : {
-            itemPrev
+            itemPreview , filterHeader
         } ,
         computed: {
-            items() {
-                return this.$store.state.items;
-            }
+            filterItems() {
+                return this.$store.getters.filterItems;
+            } 
         } ,
         created () {
             this.$store.dispatch('getItems');
@@ -27,9 +32,15 @@ import itemPrev from '../item-prev';
     }
 </script>
 
+
+
+
 <style scoped lang='scss'>
-    #item-list {
+    .item-list {
         padding-top: 80px;
         padding-bottom: 80px;
-    }   
+    }
+    .flip-list-move  {
+        transition: transform 1s;
+    }
 </style>

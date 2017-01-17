@@ -1,7 +1,7 @@
 <template>
-    <div id="home">
-        <filter-header></filter-header>
-        <component :is="currComp"></component>
+    <div class="home">
+         <filter-header></filter-header>
+        <item-list-map></item-list-map>
     </div>
 </template>
 
@@ -17,14 +17,8 @@ import itemList from '../item-list';
             }
         } ,
         components: {
-            filterHeader ,itemListMap ,itemList
-        } ,
-        computed : {
-            currComp() {
-               return this.$store.state.mapOrList;
-            }
-        }
-
+            filterHeader ,itemListMap , itemList
+        } 
     }
 </script>
 
