@@ -3,20 +3,13 @@
         <transition-group name="flip-list">
             <item-preview v-for="item in items" :item="item" :key="item.name"></item-preview>
         </transition-group>
-
     </div>
 </template>
 
 <script>
-import itemPreview from '../item-preview';
-
+    import itemPreview from '../item-preview';
     export default {
         name : 'item-list' , 
-        props : {
-            items : {
-                type: Array
-            }
-        } ,
         data() { 
             return {
              
@@ -25,13 +18,13 @@ import itemPreview from '../item-preview';
         components : {
             itemPreview
         } ,
-        created () {
-            this.$store.dispatch('getItems');
-        }
+        computed: {
+            items() {
+                return this.$store.getters.filterItems;
+            }
+        } 
     }
 </script>
-
-
 
 
 <style scoped lang='scss'>

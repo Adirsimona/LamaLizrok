@@ -51,4 +51,13 @@
         justify-content: center;
         align-items: center;
     }
+
+    select {
+        width: 44vh;
+        background-color: #bfb7b7;
+        direction: rtl;
+        color: white;
+        font-weight: 600;
+        font-size: 1.1em;
+    }
 </style>

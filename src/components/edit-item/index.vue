@@ -9,7 +9,7 @@
             </div>
 
             <div class="input-container">
-
+         
                 <form ref="editItemForm" action="">
                      <input v-on:change="drawCanvas" ref="inputFile" style="display:none" id="fileUpload" type="file" accept="image/*" capture />
  
@@ -31,7 +31,8 @@
                     <label for=""> קטגוריה?</label>
                         <p class="control">
                             <span class="select">
-                                <select name="ctg">
+                                <select name="ctg"> 
+                                    <option value="all">בחר קטגוריה</option>
                                     <option v-for="ctg in ctgs" :value="ctg">{{ctg}}</option>
                                 </select>
                             </span>
@@ -59,10 +60,7 @@
 </template>
 
 <script>
-//   <label >איפה?</label>
-                        // <p class="control">
-                        // <input name="nameLoc" class="input" type="text" placeholder="עיר...">
-                        // </p>
+
 
     export default {
         name : 'edit-item' , 
@@ -72,9 +70,11 @@
                 cor : {
                     lat : 0 ,
                     lng : 0
-                } 
+                }
+           
             } 
-        } ,
+        } , 
+
         methods: {
             chooseFiles: function() {
                 document.getElementById("fileUpload").click();
@@ -92,6 +92,8 @@
                 },
 
             sendItem () {
+                this.$root.$refs.toastr.defaultPosition = 'toast-top-center';
+                this.$root.$refs.toastr.defaultTimeout = 2300;
                 const file = this.$refs.inputFile.files;
                 const editItemForm = this.$refs.editItemForm;
                 if (file && file.length) {
@@ -103,9 +105,16 @@
                     console.log('formData :'  , formData);
                     this.$http.post('http://localhost:3003/data/item', formData)
                         .then(res => res.json())
-                        .then(data => console.log(data))
+                        .then(data => {
+
+                        setTimeout(() => {
+                            window.location.assign('http://localhost:8080/');
+                        } ,3000)
+                        this.$root.$refs.toastr.s(`${data.name} נכנס למאגר!` , 'נוסף בהצלחה!');
+                        })
 
             } else {
+                   this.$root.$refs.toastr.e('ומה עם תמונה?');
                     console.log("You have not added an image!", "Try again...");
                 }
             }
@@ -127,7 +136,7 @@
             navigator.geolocation.getCurrentPosition(pos => {
                 L.mapbox.accessToken = 'pk.eyJ1IjoiYWRpcnNpbW9uYSIsImEiOiJjaXNieDd5bjUwMDB6MnRxZmYwYmp0ZXlkIn0.EVRohsa3TB2JcabmAQPZ9A';
                 // create map
-                this.map = L.mapbox.map('map','mapbox.street', {
+                this.map = L.mapbox.map('map','mapbox.streets', {
                         center: [pos.coords.latitude, pos.coords.longitude],
                         zoom: 15 ,
                         zoomControl : false ,
@@ -136,9 +145,9 @@
                 var styleLayer = L.mapbox.styleLayer('mapbox://styles/adirsimona/cisce3vxz00242xpewuqf5jz9').addTo(this.map);
                     L.marker([ pos.coords.latitude , pos.coords.longitude ], {
                         icon: L.mapbox.marker.icon({
-                        'marker-size': 'large',
-                        'marker-symbol': 'marker',
-                        'marker-color': '#f14'
+                        'marker-size': 'medium',
+                        'marker-symbol': 'police',
+                        'marker-color': '#1a1eed'
                         })
                     }).addTo(this.map);   
                 });
@@ -190,6 +199,15 @@
      }
      .control {
         text-align: center;
+     }
+
+     select {
+             width: 44vh;
+             background-color: #bfb7b7;
+     }
+
+     label {
+         color: #1976d4;
      }
 
 

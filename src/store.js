@@ -22,10 +22,6 @@ export default new Vuex.Store({
         switchDisplay(state) {
             state.isMapMode = !state.isMapMode;
         }
-        // filterItems(state, ctg) {
-        //     if (ctg === 'all') state.itemsFilter = state.items;
-        //     else state.itemsFilter = state.items.filter(item => item.ctg === ctg);
-        // }
     },
     getters: {
         filterItems(state) {

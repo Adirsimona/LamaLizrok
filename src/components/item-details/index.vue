@@ -31,46 +31,15 @@
 
 <script>
     export default {
-        name : 'item-preview' , 
-        props : {
-            item : Object 
-        } ,
+        name : 'item-details' , 
         data() { 
             return {
-             time : ''
+             
             }
-        } ,
-        mounted () {
-            let d =  Date(this.item.createAt).toString();
-            this.time = d.slice(0, 15);  
         }
     }
 </script>
 
 <style scoped lang='scss'>
-    .card {
-        background-color: #e7d3d3;
-        color: #665656;
-        max-width: 75%;
-        position: relative;
-        margin: 20px auto 20px auto;
-        border-radius: 10px;
-        direction: rtl;
-        box-shadow: 1px -1px 10px 1px;
-    }
-    .media-content {
-      text-align: center;
-    }
-    .flex {
-        display : flex;
-        justify-content: space-between;
-    }
-    .title is-4{
-        font-size: 1.7rem;
-        font-weight: 500;
-    }
-    .card-content {
-    padding: 1rem;
-    font-family: 'Secular One', sans-serif;
-}
+
 </style>

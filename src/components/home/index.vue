@@ -1,12 +1,14 @@
 <template>
     <div class="home">
         <filter-header></filter-header>
-        <item-list-map v-show="isMapMode" :items="filterItems" :location="location"></item-list-map>
-        <item-list v-show="!isMapMode" :items="filterItems"></item-list>
+            <router-view></router-view>
     </div>
 </template>
 
 <script> 
+
+        // <item-list-map v-show="isMapMode" :items="filterItems" :location="location"></item-list-map>
+        // <item-list v-show="!isMapMode" :items="filterItems"></item-list>
 import filterHeader from '../filter-header';
 import itemListMap from '../item-list-map';
 import itemList from '../item-list';
@@ -32,10 +34,7 @@ import itemList from '../item-list';
             }
         } ,
         created () {
-                navigator.geolocation.getCurrentPosition(pos => {
-                    this.location.lat =pos.coords.latitude;
-                    this.location.lng =pos.coords.longitude;
-            })
+            this.$store.dispatch('getItems');
         }  
     }
 </script>

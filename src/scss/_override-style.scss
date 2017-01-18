@@ -7,12 +7,39 @@
 }
 
 .leaflet-popup-content {
+    font-family: 'Secular One', sans-serif;
+    background: rgb(174, 146, 148);
     text-align: center;
-    h1 {
-        color: black;
-        font-size: 1.5em;
-    }
-    h2 {
-        margin: 0 0 5px 0;
-    }
+    padding-top: 15px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 9px 4px;
+}
+
+.leaflet-container h1 {
+    color: black;
+    font-size: 1.5em;
+    margin-top: 7px;
+}
+
+h2 {
+    margin: 0 0 5px 0;
+}
+
+.toast-container {
+    text-align: center;
+    direction: rtl;
+    font-weight: 700
+}
+
+.mapbox-logo-true:before {
+    content: '';
+    display: none;
+    width: 61px;
+    height: 19px;
+    vertical-align: middle;
+}
+
+.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {
+    opacity: 1;
+    transition: opacity 1s;
 }
