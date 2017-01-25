@@ -43,9 +43,6 @@
             }
         },
         methods: {
-            Test() {
-                console.log('Testing...');
-            },
             sendMsg() {
                 // Captures an empty string and denies it.
                 if (this.chatMsg.msg === '') return;
@@ -85,36 +82,31 @@
                     for (let currRes in event.results) {
                         const res = event.results[currRes][0];
                         if (res) {
-                            console.log('script', res.transcript)
                             allText += ' ' + res.transcript;
                         }
                     }
-                    console.log('allText', allText);
                     this.txt2speech = allText;
                     //now you can show the results
                 }
                 this.recognition.onerror = (event) => {
-                    console.log('onerror', event);
                     this.isRec = false;
                 }
                 this.recognition.onend = () => {
                     this.chatMsg.msg += this.txt2speech;
-                    console.log('done record');
                     if (this.isRec) this.recognition.start();
                 }
             }
         },
-        created() {
-            
-            this.socket = io.connect('http://localhost:3003')
+        created() { 
+            this.socket = io.connect('https://lamalizrok.herokuapp.com/')
             this.socket.on('chat message', chatMsg => {
                 this.chatMsgs.push(chatMsg);
                 setTimeout(() => {
                     this.$refs.mainCon.scrollTop = this.$refs.mainCon.scrollHeight;
                 }, 0);
             })
-            // const nickName = prompt('What nickname would you like to use?');
-            const nickName = 'Puki Ben Moshe';
+            const nickName = prompt('What nickname would you like to use?');
+            // const nickName = 'Puki Ben Moshe';
             this.chatMsg.nickName = nickName || this.chatMsg.nickName
         }
     }

@@ -5,7 +5,7 @@
             <div class="card-image">
                 <figure class="image is-4by3">
                 <img :src="item.imgUrl" alt="Image">
-                </figure>
+                </figure> 
             </div>
             <!-- Content -->
             <div class="card-content">
@@ -21,6 +21,7 @@
                 <br>
                     <div class="flex">
                         <small>{{item.nameLoc}}</small>
+                          <a @click="showItem" class="button is-info">פרטים</a>
                         <small>{{time}}</small>
                     </div>
                 </div>
@@ -43,6 +44,12 @@
         mounted () {
             let d =  Date(this.item.createAt).toString();
             this.time = d.slice(0, 15);  
+
+        } ,
+        methods: {
+            showItem() {
+                window.eventBus.$emit('nav', this.item._id);
+            }
         }
     }
 </script>

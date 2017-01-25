@@ -1,17 +1,17 @@
 import VueRouter from 'vue-router';
-
 import Home from './components/home';
 import addItem from './components/edit-item';
 import chat from './components/chat';
 import itemListMap from './components/item-list-map';
 import itemList from './components/item-list';
+import itemDetails from './components/item-details';
 
 
 const routes = [{
         path: '/',
         name: 'home',
         children: [{
-                path: '/item-list-map',
+                path: '/',
                 name: 'list-map',
                 component: itemListMap
             },
@@ -32,6 +32,11 @@ const routes = [{
         path: '/chat',
         name: 'chat',
         component: chat
+    },
+    {
+        path: '/item-details/:itemId',
+        name: 'item-details',
+        component: itemDetails
     },
     { path: '*', redirect: { name: 'home' } }
 ];

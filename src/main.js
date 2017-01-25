@@ -17,6 +17,15 @@ Vue.component('vue-toastr', Toastr);
 
 window.eventBus = new Vue();
 
+window.eventBus.$on('nav', itemId => {
+    console.log('itemId', itemId);
+    router.push({ name: 'item-details', params: { itemId: itemId } })
+});
+
+
+if (process.env.NODE_ENV === 'development') {
+    Vue.http.options.root = 'https://lamalizrok.herokuapp.com/';
+}
 // components
 import footerNav from './components/footer-nav';
 

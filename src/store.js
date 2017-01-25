@@ -31,7 +31,7 @@ export default new Vuex.Store({
     },
     actions: {
         getItems({ commit }) {
-            return Vue.http.get('http://localhost:3003/data/item')
+            return Vue.http.get('data/item')
                 .then(res => res.json())
                 .then(items => {
                     commit("setItems", items);
@@ -41,7 +41,13 @@ export default new Vuex.Store({
         },
         sendItem({ commit }, item) {
             console.log('payload', item);
-            Vue.http.post('http://localhost:3003/data/item', item).then(res => res.json()).then(res => console.log('res', res));
+            Vue.http.post('data/item', item).then(res => res.json()).then(res => console.log('res', res));
+        },
+        getItemById({ commit }, id) {
+            console.log('result from the server !!!', id);
+            return Vue.http.get(`data/item/${id}`).then(res => res.json()).then(res => {
+                return res;
+            });
         }
     },
     strict: !isProduction

@@ -1,7 +1,9 @@
 <template>
     <div class="home">
         <filter-header></filter-header>
+        <transition name="fade">
             <router-view></router-view>
+        </transition>
     </div>
 </template>
 
@@ -35,10 +37,18 @@ import itemList from '../item-list';
         } ,
         created () {
             this.$store.dispatch('getItems');
-        }  
+        } ,
+
     }
 </script>
 
 <style scoped lang='scss'>
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0
+}
 
 </style>

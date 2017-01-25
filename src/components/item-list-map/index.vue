@@ -33,14 +33,14 @@
                     items.forEach( item => {
                         var m = L.marker([ item.cor.lat , item.cor.lng ], {
                                 icon: myIcon , 
-                                draggable : true 
+                                draggable : false 
                             }).bindPopup(`
                             <img src="${item.imgUrl}"/>
                             <div class="pop">
                                 <h1>${item.name}</h1>
                                 <h2>${item.quality}</h2>
-                                <h2>${item.desc}</h2>         
-                                <button onclick="window.eventBus.$emit('nav', '${item._id}' )">Details</button>
+                                <h2>${item.desc}</h2>     
+                                <a onclick="window.eventBus.$emit('nav', '${item._id}' )" class="button is-info">פרטים</a>
                             </div> ` ,
                               {
                                 minWidth: 120
@@ -51,14 +51,10 @@
         } ,
         mounted () {
 
-                window.eventBus.$on('nav', function(itemId) {
-                    console.log('itemId' , itemId);
-                    this.$route.push('item');
-                });
-            
                 L.mapbox.accessToken = 'pk.eyJ1IjoiYWRpcnNpbW9uYSIsImEiOiJjaXNieDd5bjUwMDB6MnRxZmYwYmp0ZXlkIn0.EVRohsa3TB2JcabmAQPZ9A';
 
                 // create map
+            if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(pos => {
                     this.map = L.mapbox.map('map','mapbox.streets', {
                             center: [pos.coords.latitude,pos.coords.longitude ],
@@ -76,6 +72,16 @@
                      var styleLayer = L.mapbox.styleLayer('mapbox://styles/adirsimona/cisce3vxz00242xpewuqf5jz9').addTo(this.map);
                      this.renderItemsOnMap(this.items);
                 });
+            } else {
+                this.map = L.mapbox.map('map','mapbox.streets', {
+                            center: [0,0 ],
+                            zoom : 14 ,
+                            zoomControl : false ,
+                            attributionControl : false
+                    }); 
+                var styleLayer = L.mapbox.styleLayer('mapbox://styles/adirsimona/cisce3vxz00242xpewuqf5jz9').addTo(this.map);
+                this.renderItemsOnMap(this.items);
+            }
             } ,
             watch: {
                items() {

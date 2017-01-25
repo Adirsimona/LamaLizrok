@@ -47,7 +47,7 @@
                         </div>
                         <v-text-input
                             name="nameLoc" 
-                            label="איפה?"
+                            label="עיר?"
                         ></v-text-input>
                     <div class="btns">
                         <a @click="sendItem" class="button is-success">סע!</a>
@@ -103,12 +103,12 @@
                     formData.append('cor', JSON.stringify(this.cor));
                     formData.append('createAt', Date.now());
                     console.log('formData :'  , formData);
-                    this.$http.post('http://localhost:3003/data/item', formData)
+                    this.$http.post('data/item', formData)
                         .then(res => res.json())
                         .then(data => {
 
                         setTimeout(() => {
-                            window.location.assign('http://localhost:8080/');
+                            window.location.assign('https://lamalizrok.herokuapp.com/');
                         } ,3000)
                         this.$root.$refs.toastr.s(`${data.name} נכנס למאגר!` , 'נוסף בהצלחה!');
                         })
