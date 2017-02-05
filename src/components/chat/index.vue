@@ -1,6 +1,5 @@
 <template>
   <div class="chat">
-    
         <ul ref="mainCon" class="messages">
             <li class="other" v-for="chatMsg in chatMsgs">
                 <div class="msg">
@@ -10,7 +9,6 @@
                 </div>
             </li>
         </ul>
- 
     <form>
       <input v-model="chatMsg.msg" />
       <button v-show="chatMsg.msg.length !== 0" @click.prevent="sendMsg" class="send"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
@@ -49,7 +47,7 @@
                 let date = new Date();
                 this.chatMsg.time = date.toUTCString();
                 console.log('Sending: ', this.chatMsg);
-                this.socket.emit('chat newMessage', this.chatMsg);
+                this.socket.emit('chat message', this.chatMsg);
                 this.chatMsg.msg = '';
             },
             captStart() {
@@ -57,7 +55,7 @@
                     this.recognition.start();
                     console.log('Starting voice capture service.');
                 }
-               
+
             },
             captStop() {
                 this.isRec = false;
@@ -97,10 +95,13 @@
                 }
             }
         },
-        created() { 
-            this.socket = io.connect('https://lamalizrok.herokuapp.com/')
+        created() {
+            this.socket = io.connect({
+                path: '/lamalizrok-ado/data/socket.io'
+            });
             this.socket.on('chat message', chatMsg => {
                 this.chatMsgs.push(chatMsg);
+                console.log(this.$refs.mainCon);
                 setTimeout(() => {
                     this.$refs.mainCon.scrollTop = this.$refs.mainCon.scrollHeight;
                 }, 0);
@@ -119,7 +120,7 @@
         bottom: 67px;
         width: 100%;
         display: flex;
-            box-shadow: 1px -1px 8px 1px;
+        box-shadow: 1px -1px 8px 1px;
     }
     
     form input {
@@ -130,7 +131,7 @@
         margin-right: 2.5%;
         margin-left: 1%;
         background-color: white;
-            box-shadow: inset 0px 0px 5px 3px;
+        box-shadow: inset 0px 0px 5px 3px;
     }
     
     form button {
@@ -172,30 +173,29 @@
         align-items: center;
         justify-content: center;
     }
-
+    
     .animated {
         animation-duration: 1s;
         animation-fill-mode: both;
-        }
-
-        .animated.infinite {
-           animation-iteration-count: infinite;
-        }
+    }
+    
+    .animated.infinite {
+        animation-iteration-count: infinite;
+    }
+    
     @keyframes pulse {
         from {
             transform: scale3d(1, 1, 1);
         }
-
         50% {
             transform: scale3d(1.30, 1.30, 1.30);
         }
-
         to {
             transform: scale3d(1, 1, 1);
         }
-        }
-
-        .pulse {
+    }
+    
+    .pulse {
         animation-name: pulse;
-        }
+    }
 </style>
