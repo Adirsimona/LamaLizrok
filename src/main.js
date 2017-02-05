@@ -23,9 +23,9 @@ window.eventBus.$on('nav', itemId => {
 });
 
 
-if (process.env.NODE_ENV === 'development') {
-    Vue.http.options.root = 'https://lamalizrok.herokuapp.com/';
-}
+Vue.http.options.root = 'https://coding-academy.net/lamalizrok-ado/data';
+// if (process.env.NODE_ENV === 'development') {
+// }
 // components
 import footerNav from './components/footer-nav';
 

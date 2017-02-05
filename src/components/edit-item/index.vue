@@ -60,38 +60,36 @@
 </template>
 
 <script>
-
-
     export default {
-        name : 'edit-item' , 
-        data() { 
+        name: 'edit-item',
+        data() {
             return {
-                map : null,
-                cor : {
-                    lat : 0 ,
-                    lng : 0
+                map: null,
+                cor: {
+                    lat: 0,
+                    lng: 0
                 }
-           
-            } 
-        } , 
+
+            }
+        },
 
         methods: {
             chooseFiles: function() {
                 document.getElementById("fileUpload").click();
-            } ,
+            },
             drawCanvas() {
-                    var canvas = document.querySelector('.canvas');
-                    var ctx = canvas.getContext('2d');
-                    var img = new Image();
-                    var selectedFile = document.getElementById('fileUpload').files[0];
-                    img.src =window.URL.createObjectURL(selectedFile);
+                var canvas = document.querySelector('.canvas');
+                var ctx = canvas.getContext('2d');
+                var img = new Image();
+                var selectedFile = document.getElementById('fileUpload').files[0];
+                img.src = window.URL.createObjectURL(selectedFile);
 
-                    img.onload = function () {
-                        ctx.drawImage(img, 0, 0, 300, 200);
-                       }
-                },
+                img.onload = function() {
+                    ctx.drawImage(img, 0, 0, 300, 200);
+                }
+            },
 
-            sendItem () {
+            sendItem() {
                 this.$root.$refs.toastr.defaultPosition = 'toast-top-center';
                 this.$root.$refs.toastr.defaultTimeout = 2300;
                 const file = this.$refs.inputFile.files;
@@ -99,116 +97,119 @@
                 if (file && file.length) {
                     var formData = new FormData(editItemForm);
                     formData.append('file', file[0], file[0].name);
-                    
+
                     formData.append('cor', JSON.stringify(this.cor));
                     formData.append('createAt', Date.now());
-                    console.log('formData :'  , formData);
+                    console.log('formData :', formData);
                     this.$http.post('data/item', formData)
                         .then(res => res.json())
                         .then(data => {
 
-                        setTimeout(() => {
-                            window.location.assign('https://lamalizrok.herokuapp.com/');
-                        } ,3000)
-                        this.$root.$refs.toastr.s(`${data.name} נכנס למאגר!` , 'נוסף בהצלחה!');
+                            setTimeout(() => {
+                                window.location.assign('https://coding-academy.net/lamalizrok-ado/');
+                            }, 3000)
+                            this.$root.$refs.toastr.s(`${data.name} נכנס למאגר!`, 'נוסף בהצלחה!');
                         })
 
-            } else {
-                   this.$root.$refs.toastr.e('ומה עם תמונה?');
+                } else {
+                    this.$root.$refs.toastr.e('ומה עם תמונה?');
                     console.log("You have not added an image!", "Try again...");
                 }
             }
-         } ,
-         created () {
+        },
+        created() {
             navigator.geolocation.getCurrentPosition(pos => {
-                    this.cor.lat = pos.coords.latitude;
-                    this.cor.lng = pos.coords.longitude;
-           });
-          } ,
-          computed: {
+                this.cor.lat = pos.coords.latitude;
+                this.cor.lng = pos.coords.longitude;
+            });
+        },
+        computed: {
             ctgs() {
                 return this.$store.state.ctgs;
             }
-          } , 
-          mounted () {
+        },
+        mounted() {
 
             // get user position and add marker to map
             navigator.geolocation.getCurrentPosition(pos => {
                 L.mapbox.accessToken = 'pk.eyJ1IjoiYWRpcnNpbW9uYSIsImEiOiJjaXNieDd5bjUwMDB6MnRxZmYwYmp0ZXlkIn0.EVRohsa3TB2JcabmAQPZ9A';
                 // create map
-                this.map = L.mapbox.map('map','mapbox.streets', {
-                        center: [pos.coords.latitude, pos.coords.longitude],
-                        zoom: 15 ,
-                        zoomControl : false ,
-                        attributionControl : false
+                this.map = L.mapbox.map('map', 'mapbox.streets', {
+                    center: [pos.coords.latitude, pos.coords.longitude],
+                    zoom: 15,
+                    zoomControl: false,
+                    attributionControl: false
                 });
                 var styleLayer = L.mapbox.styleLayer('mapbox://styles/adirsimona/cisce3vxz00242xpewuqf5jz9').addTo(this.map);
-                    L.marker([ pos.coords.latitude , pos.coords.longitude ], {
-                        icon: L.mapbox.marker.icon({
+                L.marker([pos.coords.latitude, pos.coords.longitude], {
+                    icon: L.mapbox.marker.icon({
                         'marker-size': 'medium',
                         'marker-symbol': 'police',
                         'marker-color': '#1a1eed'
-                        })
-                    }).addTo(this.map);   
-                });
-          }
-         }
-        
-
+                    })
+                }).addTo(this.map);
+            });
+        }
+    }
 </script>
 
 <style scoped lang='scss'>
     .camera-container {
         position: relative;
-        height: 195px; 
+        height: 195px;
         margin-top: 20px;
         display: flex;
         justify-content: center;
         align-items: center;
         border-radius: 5px;
         margin-bottom: 20px;
-
         .is-large {
             border-radius: 50%;
             position: absolute;
             opacity: 0.6;
         }
-    } 
-    .input-container{
+    }
+    
+    .input-container {
         direction: rtl;
         display: flex;
         flex-direction: column;
         align-items: center;
         padding-bottom: 100px;
-    
-    .btns {
+        .btns {
             margin-top: 15px;
-     }
-    form {
+        }
+        form {
+            position: relative;
+            width: 100%;
+            text-align: center;
+        }
+    }
+    
+    #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+    }
+    
+    .map-con {
         position: relative;
         width: 100%;
-        text-align: center; 
-     }
+        height: 200px;
+        margin-bottom: 10px;
     }
-     #map { position:absolute; top:0; bottom:0; width:100%; }
-     .map-con {
-         position: relative;
-         width : 100%;
-         height : 200px;
-         margin-bottom: 10px;
-     }
-     .control {
+    
+    .control {
         text-align: center;
-     }
-
-     select {
-             width: 44vh;
-             background-color: #bfb7b7;
-     }
-
-     label {
-         color: #1976d4;
-     }
-
-
+    }
+    
+    select {
+        width: 44vh;
+        background-color: #bfb7b7;
+    }
+    
+    label {
+        color: #1976d4;
+    }
 </style>
