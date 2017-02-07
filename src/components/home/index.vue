@@ -38,6 +38,9 @@ import itemList from '../item-list';
         created () {
             this.$store.dispatch('getItems');
         } ,
+        mounted() {
+            this.$router.push('list-map');
+        }
 
     }
 </script>

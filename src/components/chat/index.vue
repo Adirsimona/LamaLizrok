@@ -1,7 +1,7 @@
 <template>
   <div class="chat">
         <ul ref="mainCon" class="messages">
-            <li class="other" v-for="chatMsg in chatMsgs">
+            <li v-for="chatMsg in chatMsgs" :class="{ 'other' : !chatMsg.isMyMessage , 'self' : chatMsg.isMyMessage}">
                 <div class="msg">
                     <div class="user">{{chatMsg.nickName}}:</div>
                     <p>{{chatMsg.msg}}</p>
@@ -10,6 +10,9 @@
             </li>
         </ul>
     <form>
+
+
+    
       <input v-model="chatMsg.msg" />
       <button v-show="chatMsg.msg.length !== 0" @click.prevent="sendMsg" class="send"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
       <button v-show="chatMsg.msg.length === 0" 
@@ -31,6 +34,7 @@
                 socket: null,
                 chatMsgs: [],
                 chatMsg: {
+                    isMyMessage : true ,
                     nickName: 'Guest',
                     msg: '',
                     time: ''
@@ -100,6 +104,11 @@
                 path: '/lamalizrok-ado/data/socket.io'
             });
             this.socket.on('chat message', chatMsg => {
+                if( this.chatMsg.nickName === chatMsg.nickName) {
+                   chatMsg.isMyMessage = true; 
+                } else {
+                  chatMsg.isMyMessage = false;
+                }
                 this.chatMsgs.push(chatMsg);
                 console.log(this.$refs.mainCon);
                 setTimeout(() => {
@@ -107,8 +116,12 @@
                 }, 0);
             })
             const nickName = prompt('What nickname would you like to use?');
-            // const nickName = 'Puki Ben Moshe';
             this.chatMsg.nickName = nickName || this.chatMsg.nickName
+        } ,
+        watch : {
+            chatMsgs() {
+                console.log('chatMsgs : ' , this.chatMsgs);
+            }
         }
     }
 </script>

@@ -106,7 +106,8 @@
                         .then(data => {
 
                             setTimeout(() => {
-                                window.location.assign('https://coding-academy.net/lamalizrok-ado/');
+                                // window.location.assign('https://coding-academy.net/lamalizrok-ado/');
+                                this.$router.push('home');
                             }, 3000)
                             this.$root.$refs.toastr.s(`${data.name} נכנס למאגר!`, 'נוסף בהצלחה!');
                         })

@@ -11,7 +11,7 @@ const routes = [{
         path: '/',
         name: 'home',
         children: [{
-                path: '/',
+                path: '/list-map',
                 name: 'list-map',
                 component: itemListMap
             },

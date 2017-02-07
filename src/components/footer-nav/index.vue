@@ -11,7 +11,7 @@
          <!-- map / list -->
         <div class="footer-cell" @click="isMapMode = !isMapMode">
                 <router-link v-if="isMapMode" to="/item-list"><a class="button is-dark"><i class="fa fa-list" aria-hidden="true"></i></a></router-link>
-                <router-link v-else to="/"><a class="button is-dark"><i class="fa fa-map" aria-hidden="true"></i></a></router-link>
+                <router-link v-else to="/list-map"><a class="button is-dark"><i class="fa fa-map" aria-hidden="true"></i></a></router-link>
         </div>
     </div>
 </template>

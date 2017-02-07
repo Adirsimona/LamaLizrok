@@ -24,7 +24,9 @@ window.eventBus.$on('nav', itemId => {
 
 
 Vue.http.options.root = 'https://coding-academy.net/lamalizrok-ado/data';
+
 // if (process.env.NODE_ENV === 'development') {
+
 // }
 // components
 import footerNav from './components/footer-nav';

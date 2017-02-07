@@ -44,7 +44,7 @@ export default new Vuex.Store({
             Vue.http.post('data/item', item).then(res => res.json()).then(res => console.log('res', res));
         },
         getItemById({ commit }, id) {
-            console.log('result from the server !!!', id);
+            console.log('http.option' , Vue.http.options.root);
             return Vue.http.get(`data/item/${id}`).then(res => res.json()).then(res => {
                 return res;
             });

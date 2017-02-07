@@ -15,12 +15,15 @@
         },
         computed: {
             items() {
-                return this.$store.getters.filterItems;
-            }
+               return this.$store.getters.filterItems;  
+            } 
         },
         methods: {
             renderItemsOnMap(items) {
+                console.log('renderItemsOnMap is work! - items :' , items);
+                console.log('renderItemsOnMap is work! - MAP :' , this.map);
                 if (!items || !this.map) return;
+
                 if (this.markers.length) {
                     this.markers.forEach(marker => this.map.removeLayer(marker));
                 }
@@ -32,6 +35,8 @@
                 });
                 items.forEach(item => {
                     if ((item.cor.lat || item.cor.lng) === undefined) return;
+                        console.log('item.cor.lat :', item.cor.lat);
+                        console.log('item.cor.lng :' , item.cor.lng);
                     var m = L.marker([item.cor.lat, item.cor.lng], {
                         icon: myIcon,
                         draggable: false
@@ -47,14 +52,16 @@
                     }).addTo(this.map);
                     this.markers.push(m);
                 })
+               console.log('renderItemsOnMap was finish!'); 
             }
         },
         mounted() {
-
+            console.log('onMounted');
             L.mapbox.accessToken = 'pk.eyJ1IjoiYWRpcnNpbW9uYSIsImEiOiJjaXNieDd5bjUwMDB6MnRxZmYwYmp0ZXlkIn0.EVRohsa3TB2JcabmAQPZ9A';
 
             // create map
             if (navigator.geolocation) {
+                setTimeout( () => {
                 navigator.geolocation.getCurrentPosition(pos => {
                     this.map = L.mapbox.map('map', 'mapbox.streets', {
                         center: [pos.coords.latitude, pos.coords.longitude],
@@ -70,8 +77,10 @@
                         })
                     }).addTo(this.map);
                     var styleLayer = L.mapbox.styleLayer('mapbox://styles/adirsimona/cisce3vxz00242xpewuqf5jz9').addTo(this.map);
+                    console.log('before we call "renderItemsOnMap"');
                     this.renderItemsOnMap(this.items);
                 });
+                } , 10 );
             } else {
                 this.map = L.mapbox.map('map', 'mapbox.streets', {
                     center: [0, 0],
@@ -82,9 +91,10 @@
                 var styleLayer = L.mapbox.styleLayer('mapbox://styles/adirsimona/cisce3vxz00242xpewuqf5jz9').addTo(this.map);
                 this.renderItemsOnMap(this.items);
             }
-        },
+        } ,
         watch: {
             items() {
+                console.log('watch on item works!');
                 if (this.map) {
                     this.renderItemsOnMap(this.items);
                 }
